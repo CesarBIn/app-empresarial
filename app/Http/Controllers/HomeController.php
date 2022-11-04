@@ -24,7 +24,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $personas=Persona::all();
-        return view('home', ['personas'=>$personas]);
+        return view('home');
     }
 }

@@ -7,24 +7,40 @@ use Illuminate\Http\Request;
 
 class PersonaController extends Controller
 {
-    
+    protected $resource = 'persona';
+    protected $redirectRoute = '/persona';
+    protected $indexTitle = 'Tabla de Personal';
+    protected $createTitle = 'Nueva Persona';
+    protected $editTitle = 'Editar Persona';
+
     public function index()
     {
-        $personas=Persona::all();
-        return view('home', ['personas'=>$personas]);
+        $personas = Persona::all();
+        $columnas = (new Persona)->getFillable();
+        return view('table', [
+            'title' => $this->indexTitle,
+            'resource' => $this->resource,
+            'columns' => $columnas,
+            'models' => $personas
+        ]);
     }
 
     
     public function create()
     {
-        return view('form');
+        $columnas = (new Persona)->getFillable();
+        return view('form', [
+            'title' => $this->createTitle,
+            'resource' => $this->resource,
+            'columns' => $columnas
+        ]);
     }
 
     
     public function store(Request $request)
     {
         Persona::create($request->all());
-        return redirect('/');
+        return redirect($this->redirectRoute);
     }
 
     
@@ -36,20 +52,26 @@ class PersonaController extends Controller
     
     public function edit(Persona $persona)
     {
-        return view('form', ['persona'=>$persona]);
+        $columnas = $persona->getFillable();
+        return view('form', [
+            'title' => $this->editTitle,
+            'resource' => $this->resource,
+            'columns' => $columnas,
+            'model' => $persona
+        ]);
     }
 
     
     public function update(Request $request, Persona $persona)
     {
         $persona->update($request->all());
-        return redirect('/');
+        return redirect($this->redirectRoute);
     }
 
     
     public function destroy(Persona $persona)
     {
         $persona->delete();
-        return redirect('/');
+        return redirect($this->redirectRoute);
     }
 }
