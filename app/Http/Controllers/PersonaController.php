@@ -17,7 +17,7 @@ class PersonaController extends Controller
     
     public function create()
     {
-        return view('formCreate');
+        return view('form');
     }
 
     
@@ -36,7 +36,7 @@ class PersonaController extends Controller
     
     public function edit(Persona $persona)
     {
-        return view('formEdit', ['persona'=>$persona]);
+        return view('form', ['persona'=>$persona]);
     }
 
     
